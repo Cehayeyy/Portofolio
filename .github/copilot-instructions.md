@@ -1,0 +1,9 @@
+- [x] Verify that the copilot-instructions.md file in the .github directory is created - COMPLETED
+- [x] Clarify Project Requirements - Portfolio website using HTML and CSS - COMPLETED
+- [x] Scaffold the Project - Create HTML/CSS structure - COMPLETED
+- [x] Customize the Project - Add portfolio sections - COMPLETED
+- [x] Install Required Extensions - Check for HTML/CSS extensions - COMPLETED
+- [x] Compile the Project - Validate files - COMPLETED
+- [x] Create and Run Task - Set up local server - COMPLETED
+- [x] Launch the Project - Open in browser - COMPLETED
+- [x] Ensure Documentation is Complete - Create README - COMPLETED

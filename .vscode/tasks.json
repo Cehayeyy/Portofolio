@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Live Server",
+			"type": "shell",
+			"command": "live-server",
+			"args": [
+				"--port=5500",
+				"--browser=default",
+				"--entry-file=index.html"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}
