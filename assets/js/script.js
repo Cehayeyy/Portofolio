@@ -1,7 +1,7 @@
-/* ═══════════════════════════════════════════════
-   ✨ PORTFOLIO - Advanced Interactive Features
-   Particles · Typing · Scroll Reveals · Dark Mode
-   ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   Portfolio — Clean Interactive Features
+   Typing · Scroll Reveals · Dark Mode
+   ═══════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Lucide icons
@@ -9,138 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // ─── LOADING SCREEN ───
-    const loader = document.getElementById('loader');
-    const loaderProgress = document.getElementById('loaderProgress');
-    const loaderPercent = document.getElementById('loaderPercent');
-
-    let currentProgress = 0;
-    const targetSteps = [25, 50, 75, 95, 100];
-    let stepIndex = 0;
-
-    const loadInterval = setInterval(() => {
-        const target = targetSteps[stepIndex];
-        if (currentProgress < target) {
-            currentProgress += 5;
-            if (currentProgress > target) currentProgress = target;
-            loaderProgress.style.width = currentProgress + '%';
-            loaderPercent.textContent = currentProgress + '%';
-        } else if (stepIndex < targetSteps.length - 1) {
-            stepIndex++;
-        } else {
-            clearInterval(loadInterval);
-            setTimeout(() => {
-                loader.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-                startHeroAnimations();
-            }, 150);
-        }
-    }, 10);
-
-    document.body.style.overflow = 'hidden';
-
-    // ─── PARTICLE SYSTEM ───
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let mouseX = 0, mouseY = 0;
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    class Particle {
-        constructor() {
-            this.reset();
-        }
-        reset() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.speedY = (Math.random() - 0.5) * 0.5;
-            this.opacity = Math.random() * 0.5 + 0.1;
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-
-            // Mouse interaction
-            const dx = mouseX - this.x;
-            const dy = mouseY - this.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 150) {
-                this.x -= dx * 0.01;
-                this.y -= dy * 0.01;
-            }
-
-            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-        }
-        draw() {
-            const theme = document.documentElement.getAttribute('data-theme');
-            const color = theme === 'dark' ? '59, 130, 246' : '37, 99, 235';
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${color}, ${this.opacity})`;
-            ctx.fill();
-        }
-    }
-
-    // Create particles
-    const particleCount = Math.min(80, Math.floor(window.innerWidth / 15));
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-
-    function connectParticles() {
-        const theme = document.documentElement.getAttribute('data-theme');
-        const color = theme === 'dark' ? '59, 130, 246' : '37, 99, 235';
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 120) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = `rgba(${color}, ${0.06 * (1 - dist / 120)})`;
-                    ctx.lineWidth = 1;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-    }
-
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { p.update(); p.draw(); });
-        connectParticles();
-        requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-
-    // ─── CURSOR GLOW ───
-    const cursorGlow = document.getElementById('cursorGlow');
-    if (cursorGlow) {
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX + 'px';
-            cursorGlow.style.top = e.clientY + 'px';
-        });
-    }
-
     // ─── DARK/LIGHT THEME ───
     const themeToggle = document.getElementById('themeToggle');
-    const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     themeToggle.addEventListener('click', () => {
@@ -148,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('portfolio-theme', newTheme);
-        // Re-initialize icons after theme change
         if (typeof lucide !== 'undefined') lucide.createIcons();
     });
 
@@ -262,54 +132,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!isDeleting && charIndex === current.length) {
             isDeleting = true;
-            typingSpeed = 2000; // Pause at end
+            typingSpeed = 2000;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             textIndex = (textIndex + 1) % typingTexts.length;
-            typingSpeed = 400; // Pause before typing
+            typingSpeed = 400;
         }
 
         setTimeout(typeEffect, typingSpeed);
     }
 
-    // ─── HERO ANIMATIONS ───
-    function startHeroAnimations() {
-        // Start typing effect
-        setTimeout(typeEffect, 500);
-
-        // Animate stat counters
-        animateCounters();
-    }
-
-    // ─── COUNTER ANIMATION ───
-    function animateCounters() {
-        const counters = document.querySelectorAll('.stat-number');
-        counters.forEach(counter => {
-            const target = parseInt(counter.getAttribute('data-target'));
-            const duration = 2000;
-            const startTime = performance.now();
-
-            function updateCounter(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                // Ease out cubic
-                const eased = 1 - Math.pow(1 - progress, 3);
-                counter.textContent = Math.round(target * eased);
-
-                if (progress < 1) {
-                    requestAnimationFrame(updateCounter);
-                }
-            }
-            requestAnimationFrame(updateCounter);
-        });
-    }
+    // Start typing effect
+    setTimeout(typeEffect, 600);
 
     // ─── SCROLL REVEAL ───
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('revealed');
-                
+
                 // Animate skill bars when skills section is visible
                 if (entry.target.closest('.skills')) {
                     animateSkillBars();
@@ -318,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -40px 0px'
     });
 
     document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right').forEach(el => {
@@ -334,11 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const progress = bar.getAttribute('data-progress');
             setTimeout(() => {
                 bar.style.width = progress + '%';
-            }, index * 150);
+            }, index * 120);
         });
     }
 
-    // ─── PROJECT CAROUSELS (multiple) ───
+    // ─── PROJECT CAROUSELS ───
     const allCarousels = document.querySelectorAll('.project-carousel');
 
     allCarousels.forEach((carousel) => {
@@ -370,10 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
             showSlide(currentSlide);
         }
 
-        // Auto-scroll tiap 3 detik
+        // Auto-scroll every 3.5s
         setInterval(() => {
             if (!isPaused) nextSlide();
-        }, 3000);
+        }, 3500);
 
         // Pause on hover (desktop)
         if (card) {
@@ -389,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // ─── MOBILE: Swipe support ───
+        // Mobile: Swipe support
         let touchStartX = 0;
 
         track.addEventListener('touchstart', (e) => {
@@ -410,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => { isPaused = false; }, 5000);
         }, { passive: true });
 
-        // ─── MOBILE: Tap card to toggle zoom out ───
+        // Mobile: Tap card to toggle zoom out
         if (card) {
             card.addEventListener('click', (e) => {
                 if (e.target.closest('a, button, .carousel-dot, .project-info')) return;
@@ -427,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Update active button
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
@@ -517,24 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 3500);
     }
-
-    // ─── TILT EFFECT (Skill Cards) ───
-    document.querySelectorAll('[data-tilt]').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 15;
-            const rotateY = (centerX - x) / 15;
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-        });
-    });
 
     // ─── KEYBOARD ACCESSIBILITY ───
     document.addEventListener('keydown', (e) => {
