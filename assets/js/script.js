@@ -106,11 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── TYPING EFFECT ───
     const typingElement = document.getElementById('typingText');
     const typingTexts = [
-        'Web Developer',
-        'UI/UX Designer',
-        'Creative Thinker',
-        'Problem Solver',
-        'Front-End Enthusiast'
+        'Pengembang Web',
+        'Desainer UI/UX',
+        'Pemikir Kreatif',
+        'Penyelesai Masalah',
+        'Pengembang Front-End'
     ];
     let textIndex = 0;
     let charIndex = 0;
@@ -325,9 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         access_key: WEB3FORMS_KEY,
                         name: name,
                         email: email,
-                        subject: '[Portfolio] ' + subject,
+                        subject: '[Portofolio] ' + subject,
                         message: message,
-                        from_name: 'Portfolio Contact Form',
+                        from_name: 'Formulir Kontak Portofolio',
                     }),
                 });
 
